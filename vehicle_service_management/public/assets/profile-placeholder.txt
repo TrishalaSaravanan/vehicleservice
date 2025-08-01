@@ -1,0 +1,3 @@
+<!-- This is a placeholder file for the profile image -->
+<!-- In a real application, you would place an actual image file here -->
+<!-- The component will handle cases where this image doesn't exist -->

@@ -1,0 +1,16 @@
+/* Make asterisks red for required fields */
+label.required-asterisk::after {
+  content: ' *';
+  color: red;
+}
+
+/* Optional: limit textarea resize */
+textarea[maxlength] {
+  resize: vertical;
+}
+
+.char-count {
+  font-size: 0.9em;
+  color: #888;
+  float: right;
+}

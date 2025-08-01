@@ -1,0 +1,78 @@
+<!-- Footer -->
+<footer class="bg-[#1B4B88] text-white pt-20 pb-12 relative">
+    <div class="wave"></div>
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h4 class="text-2xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-car mr-2"></i>
+                    <span>MechniQ</span>
+                </h4>
+                <p class="mb-4">Your trusted partner for all vehicle maintenance and repair needs.</p>
+                <div class="flex space-x-4">
+                    <a href="https://www.facebook.com/" class="w-10 h-10 bg-[#1B4B88] text-white rounded-full flex items-center justify-center hover:bg-blue-900 transition">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://x.com/?lang=en" class="w-10 h-10 bg-[#1B4B88] text-white rounded-full flex items-center justify-center hover:bg-blue-900 transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com/accounts/login/?hl=en" class="w-10 h-10 bg-[#1B4B88] text-white rounded-full flex items-center justify-center hover:bg-blue-900 transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://in.linkedin.com/" class="w-10 h-10 bg-[#1B4B88] text-white rounded-full flex items-center justify-center hover:bg-blue-900 transition">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-xl font-semibold mb-4">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a (click)="scrollTo('home')" class="hover:text-gray-200 transition cursor-pointer">Home</a></li>
+                    <li><a (click)="scrollTo('about')" class="hover:text-gray-200 transition cursor-pointer">About Us</a></li>
+                    <li><a (click)="scrollTo('services')" class="hover:text-gray-200 transition cursor-pointer">Services</a></li>
+                    <li><a (click)="scrollTo('contact')" class="hover:text-gray-200 transition cursor-pointer">Contact</a></li>
+                    <li><a routerLink="/login" class="hover:text-gray-200 transition">Login</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xl font-semibold mb-4">Services</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-gray-200 transition">AC Service</a></li>
+                    <li><a href="#" class="hover:text-gray-200 transition">Battery Check</a></li>
+                    <li><a href="#" class="hover:text-gray-200 transition">Brake Service</a></li>
+                    <li><a href="#" class="hover:text-gray-200 transition">Oil Change</a></li>
+                    <li><a href="#" class="hover:text-gray-200 transition">Tire Service</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xl font-semibold mb-4">Contact Info</h4>
+                <ul class="space-y-2">
+                    <li class="flex items-start">
+                        <i class="fas fa-map-marker-alt mt-1 mr-2"></i>
+                        <span>rs puram, coimbatore.</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-phone-alt mr-2"></i>
+                        <span>9345260068</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-envelope mr-2"></i>
+                        <span>info&#64;mechniq.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="border-t border-blue-700 mt-12 pt-8 text-center">
+            <p>&copy; 2023 MechniQ. All rights reserved.</p>
+            <div class="mt-4 text-sm">
+                <a href="#" class="hover:text-gray-200 transition">Privacy Policy</a> | 
+                <a href="#" class="hover:text-gray-200 transition">Terms of Service</a> | 
+                <a href="https://maps.app.goo.gl/GCioC5Qt15sKGDu58" class="hover:text-gray-200 transition">Sitemap</a>
+            </div>
+        </div>
+    </div>
+</footer>

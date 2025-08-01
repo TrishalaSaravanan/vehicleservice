@@ -1,0 +1,266 @@
+<div class="report-management-container">
+  <!-- Header -->
+  <div class="report-header">
+    <h1>Report Management</h1>
+    <p>Generate and manage customer and mechanic reports</p>
+  </div>
+
+  <!-- Report Type Navigation -->
+  <div class="report-tabs">
+    <button 
+      class="tab-button" 
+      [class.active]="currentReportType === 'customers'"
+      (click)="showReport('customers')">
+      <i class="fas fa-users"></i>
+      Customers Report
+    </button>
+    <button 
+      class="tab-button" 
+      [class.active]="currentReportType === 'mechanics'"
+      (click)="showReport('mechanics')">
+      <i class="fas fa-wrench"></i>
+      Mechanics Report
+    </button>
+  </div>
+
+  <!-- Customers Report Section -->
+  <div class="report-section" *ngIf="currentReportType === 'customers'">
+    <div class="report-controls">
+      <div class="search-section">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input 
+            type="text" 
+            placeholder="Search customers..." 
+            [(ngModel)]="customerSearch"
+            (input)="filterCustomers()">
+        </div>
+        
+        <div class="filter-group">
+          <select [(ngModel)]="customerStatusFilter" (change)="filterCustomers()">
+            <option value="all">All Status</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+          
+          <select [(ngModel)]="customerVisitsFilter" (change)="filterCustomers()">
+            <option value="all">All Visits</option>
+            <option value="1-3">1-3 Visits</option>
+            <option value="4-6">4-6 Visits</option>
+            <option value="7+">7+ Visits</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="export-btn" (click)="exportToExcel()">
+          <i class="fas fa-file-excel"></i>
+          Export to Excel
+        </button>
+        <button class="print-btn" (click)="printReport()">
+          <i class="fas fa-print"></i>
+          Print Report
+        </button>
+      </div>
+    </div>
+
+    <div class="report-summary">
+      <div class="summary-card">
+        <h3>Total Customers</h3>
+        <p class="count">{{ getCustomersCount() }}</p>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>Customer ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Total Appointments</th>
+            <th>Total Spent</th>
+            <th>Last Appointment</th>
+            <th>Vehicle Count</th>
+            <th>Registration Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let customer of paginatedCustomers">
+            <td>{{ customer.customer_id }}</td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.phone }}</td>
+            <td>{{ customer.total_appointments }}</td>
+            <td>{{ customer.total_spent | number:'1.2-2' }}</td>
+            <td>{{ customer.last_appointment_date }}</td>
+            <td>{{ customer.vehicle_count }}</td>
+            <td>{{ customer.registration_date }}</td>
+            <td>
+              <span class="status-badge" [class.active]="customer.status === 'ACTIVE'" [class.inactive]="customer.status === 'INACTIVE'">
+                {{ customer.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Customer Pagination -->
+    <div class="pagination-container">
+      <div class="pagination-info">
+        Showing {{ (currentCustomerPage - 1) * customersPerPage + 1 }} to {{ Math.min(currentCustomerPage * customersPerPage, filteredCustomers.length) }} of {{ filteredCustomers.length }} entries
+      </div>
+      <div class="pagination-controls">
+        <button 
+          class="pagination-btn" 
+          [disabled]="currentCustomerPage === 1" 
+          (click)="previousCustomerPage()">
+          <i class="fas fa-chevron-left"></i> Previous
+        </button>
+        
+        <span class="pagination-numbers">
+          <button 
+            *ngFor="let page of [].constructor(totalCustomerPages); let i = index" 
+            class="pagination-number" 
+            [class.active]="currentCustomerPage === i + 1"
+            (click)="goToCustomerPage(i + 1)">
+            {{ i + 1 }}
+          </button>
+        </span>
+        
+        <button 
+          class="pagination-btn" 
+          [disabled]="currentCustomerPage === totalCustomerPages" 
+          (click)="nextCustomerPage()">
+          Next <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mechanics Report Section -->
+  <div class="report-section" *ngIf="currentReportType === 'mechanics'">
+    <div class="report-controls">
+      <div class="search-section">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input 
+            type="text" 
+            placeholder="Search mechanics..." 
+            [(ngModel)]="mechanicSearch"
+            (input)="filterMechanics()">
+        </div>
+        
+        <div class="filter-group">
+          <select [(ngModel)]="mechanicStatusFilter" (change)="filterMechanics()">
+            <option value="all">All Status</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+          
+          <select [(ngModel)]="mechanicSpecializationFilter" (change)="filterMechanics()">
+            <option value="all">All Specializations</option>
+            <option value="Engine">Engine</option>
+            <option value="Electrical">Electrical</option>
+            <option value="Transmission">Transmission</option>
+            <option value="Brakes">Brakes</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="export-btn" (click)="exportToExcel()">
+          <i class="fas fa-file-excel"></i>
+          Export to Excel
+        </button>
+        <button class="print-btn" (click)="printReport()">
+          <i class="fas fa-print"></i>
+          Print Report
+        </button>
+      </div>
+    </div>
+
+    <div class="report-summary">
+      <div class="summary-card">
+        <h3>Total Mechanics</h3>
+        <p class="count">{{ getMechanicsCount() }}</p>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Experience</th>
+            <th>Specializations</th>
+            <th>Certifications</th>
+            <th>Join Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mechanic of paginatedMechanics">
+            <td>{{ mechanic.name }}</td>
+            <td>{{ mechanic.email }}</td>
+            <td>{{ mechanic.phone }}</td>
+            <td>{{ mechanic.experience }} years</td>
+            <td>{{ mechanic.specializations }}</td>
+            <td>{{ mechanic.certifications }}</td>
+            <td>{{ mechanic.join_date }}</td>
+            <td>
+              <span class="status-badge" [class.active]="mechanic.status === 'ACTIVE'" [class.inactive]="mechanic.status === 'INACTIVE'">
+                {{ mechanic.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mechanic Pagination -->
+    <div class="pagination-container">
+      <div class="pagination-info">
+        Showing {{ (currentMechanicPage - 1) * mechanicsPerPage + 1 }} to {{ Math.min(currentMechanicPage * mechanicsPerPage, filteredMechanics.length) }} of {{ filteredMechanics.length }} entries
+      </div>
+      <div class="pagination-controls">
+        <button 
+          class="pagination-btn" 
+          [disabled]="currentMechanicPage === 1" 
+          (click)="previousMechanicPage()">
+          <i class="fas fa-chevron-left"></i> Previous
+        </button>
+        
+        <span class="pagination-numbers">
+          <button 
+            *ngFor="let page of [].constructor(totalMechanicPages); let i = index" 
+            class="pagination-number" 
+            [class.active]="currentMechanicPage === i + 1"
+            (click)="goToMechanicPage(i + 1)">
+            {{ i + 1 }}
+          </button>
+        </span>
+        
+        <button 
+          class="pagination-btn" 
+          [disabled]="currentMechanicPage === totalMechanicPages" 
+          (click)="nextMechanicPage()">
+          Next <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data Message -->
+  <div class="no-data" *ngIf="(currentReportType === 'customers' && filteredCustomers.length === 0) || (currentReportType === 'mechanics' && filteredMechanics.length === 0)">
+    <i class="fas fa-folder-open"></i>
+    <h3>No Data Found</h3>
+    <p>No {{ currentReportType }} match your current filters.</p>
+  </div>
+
+</div>

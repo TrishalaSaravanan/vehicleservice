@@ -1,0 +1,167 @@
+.stat-card {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+}
+
+/* Custom color classes to match the design */
+:host ::ng-deep {
+  .text-primary {
+    color: #1B4B88;
+  }
+  
+  .bg-primary {
+    background-color: #1B4B88;
+  }
+  
+  .border-primary {
+    border-color: #1B4B88;
+  }
+  
+  .text-secondary {
+    color: #2D9CDB;
+  }
+  
+  .bg-secondary {
+    background-color: #2D9CDB;
+  }
+  
+  .border-secondary {
+    border-color: #2D9CDB;
+  }
+  
+  .text-accent {
+    color: #F2C94C;
+  }
+  
+  .bg-accent {
+    background-color: #F2C94C;
+  }
+  
+  .border-accent {
+    border-color: #F2C94C;
+  }
+  
+  .text-dark {
+    color: #1A1A1A;
+  }
+  
+  .hover\:bg-primary-dark:hover {
+    background-color: #0f2d4f;
+  }
+  
+  .hover\:text-primary-dark:hover {
+    color: #0f2d4f;
+  }
+}
+
+/* Table styling */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table-container {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Modal styling */
+.modal-backdrop {
+  backdrop-filter: blur(4px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .stat-card {
+    margin-bottom: 1rem;
+  }
+  
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  table {
+    min-width: 600px;
+  }
+}
+
+/* Custom select dropdown styling */
+select {
+  background-image: none;
+}
+
+.select-wrapper::after {
+  content: '▼';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
+/* Button hover effects */
+button {
+  transition: all 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Status badge animations */
+.status-badge {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

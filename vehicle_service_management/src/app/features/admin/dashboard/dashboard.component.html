@@ -1,0 +1,23 @@
+<div class="flex bg-gray-50 min-h-screen font-sans">
+  <!-- Sidebar -->
+ 
+   <!-- Main Content -->
+  <main class="flex-1 p-8">
+    <!-- Header -->
+    <app-header></app-header>
+    
+    <!-- Stats Cards -->
+    <app-stats-cards></app-stats-cards>
+    
+    <!-- Tables Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+      <app-recent-bookings></app-recent-bookings>
+      <app-today-schedules></app-today-schedules>
+    </div>
+    
+    <!-- Recent Activity -->
+    <div class="mt-8">
+      <app-recent-activity></app-recent-activity>
+    </div>
+  </main>
+</div>

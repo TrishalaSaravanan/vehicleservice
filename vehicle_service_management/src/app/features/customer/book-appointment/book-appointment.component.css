@@ -1,0 +1,139 @@
+.card-shadow {
+  background: linear-gradient(120deg, #f8fafc 60%, #e3eafc 100%);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 32px rgba(27, 75, 136, 0.18), 0 2px 8px rgba(27, 75, 136, 0.08);
+  padding: 2rem 1.5rem;
+}
+
+.vehicle-card, .service-card {
+  border-radius: 1.25rem;
+  background: linear-gradient(120deg, #f8fafc 80%, #e3eafc 100%);
+  box-shadow: 0 2px 12px rgba(27, 75, 136, 0.10);
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.1s;
+}
+.vehicle-card.selected, .service-card.selected {
+  border-color: #1B4B88;
+  box-shadow: 0 8px 32px rgba(27, 75, 136, 0.18);
+  transform: scale(1.03);
+}
+
+.step-indicator {
+  border-radius: 50%;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 8px rgba(27, 75, 136, 0.10);
+}
+
+.time-slot {
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 1px 4px rgba(27, 75, 136, 0.08);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+.time-slot.selected, .time-slot:hover {
+  background: linear-gradient(90deg, #1B4B88 80%, #3b82f6 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(27, 75, 136, 0.18);
+  transform: scale(1.05);
+}
+
+.modal-content, .slide-in {
+  border-radius: 1.5rem;
+  background: linear-gradient(120deg, #f8fafc 80%, #e3eafc 100%);
+  box-shadow: 0 12px 48px rgba(27, 75, 136, 0.22);
+}
+
+button, .time-slot {
+  transition: transform 0.1s, box-shadow 0.2s;
+}
+button:active, .time-slot:active {
+  transform: scale(0.97);
+}
+
+.fixed.bottom-0 {
+  border-radius: 1.25rem 1.25rem 0 0;
+  box-shadow: 0 -4px 24px rgba(27, 75, 136, 0.10);
+}
+
+.loading-spinner {
+  margin-top: 1rem;
+}
+
+.container {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+body, .bg-gray-50 {
+  background: linear-gradient(135deg, #e3eafc 0%, #f8fafc 100%);
+}
+
+.card-shadow {
+  box-shadow: 0 6px 24px rgba(27, 75, 136, 0.08), 0 1.5px 6px rgba(27, 75, 136, 0.04);
+}
+
+.step-indicator {
+  background: #e3eafc;
+  color: #1B4B88;
+  font-weight: bold;
+  border: 2px solid #b6d0f7;
+  transition: background 0.3s, color 0.3s, border 0.3s;
+}
+.step-indicator.active {
+  background: #1B4B88;
+  color: #fff;
+  border: 2px solid #1B4B88;
+  box-shadow: 0 0 0 4px #e3eafc;
+}
+
+.vehicle-card {
+  transition: box-shadow 0.2s, border-color 0.2s;
+  box-shadow: 0 2px 8px rgba(27, 75, 136, 0.06);
+}
+.vehicle-card.selected {
+  border-color: #1B4B88;
+  box-shadow: 0 4px 16px rgba(27, 75, 136, 0.12);
+}
+
+.service-card {
+  transition: box-shadow 0.2s, border-color 0.2s;
+  box-shadow: 0 2px 8px rgba(27, 75, 136, 0.06);
+}
+.service-card.selected {
+  border-color: #1B4B88;
+  box-shadow: 0 4px 16px rgba(27, 75, 136, 0.12);
+}
+
+.time-slot {
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.time-slot.selected, .time-slot:hover {
+  background: #1B4B88;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(27, 75, 136, 0.10);
+}
+
+.modal-content, .slide-in {
+  box-shadow: 0 8px 32px rgba(27, 75, 136, 0.18);
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loading-spinner {
+  border: 4px solid #e3eafc;
+  border-top: 4px solid #1B4B88;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+.modal.flex { display: flex; }
+.modal-content { background-color: white; padding: 2rem; border-radius: 0.5rem; max-width: 500px; width: 90%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }

@@ -1,0 +1,171 @@
+<!-- Header with Back Button -->
+<div class="bg-white shadow-sm border-b">
+  <div class="max-w-4xl mx-auto px-4 py-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <button 
+          (click)="goBack()"
+          class="flex items-center space-x-2 text-blue-600 hover:text-blue-800 transition"
+        >
+          <i class="fas fa-arrow-left"></i>
+          <span>Back to Dashboard</span>
+        </button>
+      </div>
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-car text-2xl text-blue-600"></i>
+        <span class="text-xl font-bold text-gray-800">MechniQ</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="min-h-screen bg-gray-100 py-8">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <!-- Profile Header -->
+      <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-8">
+        <div class="flex items-center space-x-6">
+          <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center">
+            <i class="fas fa-user text-3xl text-blue-600"></i>
+          </div>
+          <div class="text-white">
+            <h1 class="text-3xl font-bold">{{ mechanic.name }}</h1>
+            <p class="text-blue-100 text-lg">{{ mechanic.specialization ? (mechanic.specialization.join ? mechanic.specialization.join(', ') : mechanic.specialization) : '' }}</p>
+            <p class="text-blue-200 text-sm">{{ mechanic.experience ? (mechanic.experience + ' years of experience') : '' }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Content -->
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-semibold text-gray-800">Profile Information</h2>
+          <button 
+            *ngIf="!isEditing"
+            (click)="toggleEdit()"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition"
+          >
+            <i class="fas fa-edit"></i>
+            <span>Edit Profile</span>
+          </button>
+        </div>
+
+        <!-- View Mode -->
+        <div *ngIf="!isEditing" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Full Name</label>
+              <p class="text-gray-800 font-medium">{{ mechanic.name || 'N/A' }}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Email</label>
+              <p class="text-gray-800">{{ mechanic.email || 'N/A' }}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Phone</label>
+              <p class="text-gray-800">{{ mechanic.phone || 'N/A' }}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Address</label>
+              <p class="text-gray-800">{{ mechanic.address || 'N/A' }}</p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Specialization</label>
+              <p class="text-gray-800">{{ mechanic.specialization ? (mechanic.specialization.join ? mechanic.specialization.join(', ') : mechanic.specialization) : 'N/A' }}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Experience</label>
+              <p class="text-gray-800">{{ mechanic.experience ? (mechanic.experience + ' years') : 'N/A' }}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Certification</label>
+              <p class="text-gray-800">{{ mechanic.certification ? (mechanic.certification.join ? mechanic.certification.join(', ') : mechanic.certification) : 'N/A' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Mode -->
+        <div *ngIf="isEditing" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+              <input 
+                type="text" 
+                [(ngModel)]="editData.name"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+              <input 
+                type="email" 
+                [(ngModel)]="editData.email"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+              <input 
+                type="tel" 
+                [(ngModel)]="editData.phone"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
+              <input 
+                type="text" 
+                [(ngModel)]="editData.specialization"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Experience</label>
+              <input 
+                type="text" 
+                [(ngModel)]="editData.experience"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Certification</label>
+              <input 
+                type="text" 
+                [(ngModel)]="editData.certification"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+              <input 
+                type="text" 
+                [(ngModel)]="editData.address"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+            </div>
+          </div>
+          
+          <div class="flex justify-end space-x-3">
+            <button 
+              (click)="cancelEdit()"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-2 rounded-lg transition"
+            >
+              Cancel
+            </button>
+            <button 
+              (click)="saveProfile()"
+              class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Information Cards removed as requested -->
+  </div>
+</div>

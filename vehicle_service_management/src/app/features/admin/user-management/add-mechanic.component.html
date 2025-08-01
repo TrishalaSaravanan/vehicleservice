@@ -1,0 +1,40 @@
+<form (ngSubmit)="onSubmit()" autocomplete="off">
+  <h2>Add Mechanic</h2>
+  <label>Name:</label>
+  <input type="text" [(ngModel)]="mechanicData.name" name="name" required />
+
+  <label>Phone:</label>
+  <input type="text" [(ngModel)]="mechanicData.phone" name="phone" required />
+
+  <label>Address:</label>
+  <input type="text" [(ngModel)]="mechanicData.address" name="address" required />
+
+  <label>Experience (years):</label>
+  <input type="number" [(ngModel)]="mechanicData.experience" name="experience" min="0" required />
+
+  <label>Email:</label>
+  <input type="email" [(ngModel)]="mechanicData.email" name="email" required />
+
+  <label>Password:</label>
+  <input type="password" [(ngModel)]="mechanicData.password" name="password" required />
+
+  <div>
+    <label>Certifications:</label>
+    <div *ngFor="let cert of mechanicData.certifications; let i = index">
+      <input type="text" [(ngModel)]="mechanicData.certifications[i]" name="certification{{i}}" required />
+      <button type="button" (click)="removeCertification(i)" *ngIf="mechanicData.certifications.length > 1">Remove</button>
+    </div>
+    <button type="button" (click)="addCertification()">Add Certification</button>
+  </div>
+
+  <div>
+    <label>Specializations:</label>
+    <div *ngFor="let spec of mechanicData.specializations; let i = index">
+      <input type="text" [(ngModel)]="mechanicData.specializations[i]" name="specialization{{i}}" required />
+      <button type="button" (click)="removeSpecialization(i)" *ngIf="mechanicData.specializations.length > 1">Remove</button>
+    </div>
+    <button type="button" (click)="addSpecialization()">Add Specialization</button>
+  </div>
+
+  <button type="submit">Submit</button>
+</form>

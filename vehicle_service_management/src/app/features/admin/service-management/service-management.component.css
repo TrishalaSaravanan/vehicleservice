@@ -1,0 +1,132 @@
+/* Make status badge text more visible */
+.status-badge-text {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #222 !important;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap');
+
+/* Modern font for the whole component */
+body, .container, .service-management-container, table, th, td {
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-block;
+  min-width: 70px;
+  text-align: center;
+  transition: background 0.2s, color 0.2s;
+}
+.service-management-container {
+  padding: 2rem;
+}
+
+/* Table Enhancements */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  font-size: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+th, td {
+  padding: 18px 14px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 1.08rem;
+}
+thead th {
+  background: #f3f4f6;
+  font-weight: 800;
+  font-size: 1.12rem;
+  color: #1e293b;
+  border-bottom: 2px solid #e5e7eb;
+  letter-spacing: 0.03em;
+}
+tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+tbody tr:hover {
+  background: #e0e7ef;
+  transition: background 0.2s;
+}
+
+/* Table row and cell rounding */
+table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+th:first-child {
+  border-top-left-radius: 12px;
+}
+th:last-child {
+  border-top-right-radius: 12px;
+}
+tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+/* Action Buttons */
+.assign-btn, .complete-btn, .view-btn, .text-blue-600, .text-red-600 {
+  font-family: inherit;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-size: 1rem;
+  transition: background 0.2s, color 0.2s;
+}
+.assign-btn {
+  color: #2563eb;
+}
+.assign-btn:hover {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+.complete-btn {
+  color: #059669;
+}
+.view-btn {
+  color: #2563eb;
+}
+.text-blue-600:hover {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+.text-red-600:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Status Badges */
+.status-badge {
+  color: #fff;
+}
+.status-badge.Pending {
+  background: #a3a3a3;
+}
+.status-badge.Assigned {
+  background: #2563eb;
+}
+.status-badge.Completed {
+  background: #059669;
+}
+
+/* Truncate long notes with ellipsis */
+.truncate {
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,10 @@
+/*
+.text-[#1B4B88] { color: #1B4B88; }
+.bg-[#1B4B88] { background-color: #1B4B88; }
+.hover\:bg-blue-900:hover { background-color: #1e3a8a; }
+*/
+.container { max-width: 48rem; }
+.bg-white { background: #fff; }
+.rounded-lg { border-radius: 0.5rem; }
+.shadow-md { box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.font-bold { font-weight: bold; }

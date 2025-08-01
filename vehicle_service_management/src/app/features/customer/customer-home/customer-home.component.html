@@ -1,0 +1,339 @@
+<!-- Fixed Navigation Bar -->
+<nav class="fixed top-0 left-0 w-full flex items-center justify-between px-6 py-6 bg-[#1B4B88] shadow-md z-50">
+    <div class="text-2xl font-bold text-white flex items-center">
+        <i class="fas fa-car mr-2"></i>
+        <span>MechniQ</span>
+    </div>
+     <ul class="hidden md:flex gap-12 text-lg font-semibold">
+        <li><a (click)="scrollToSection('home')" class="text-white hover:text-gray-300 transition cursor-pointer">Home</a></li>
+        <li><a (click)="scrollToSection('about')" class="text-white hover:text-gray-300 transition cursor-pointer">About</a></li>
+        <li><a (click)="scrollToSection('services')" class="text-white hover:text-gray-300 transition cursor-pointer">Services</a></li>
+        <li><a (click)="scrollToSection('contact')" class="text-white hover:text-gray-300 transition cursor-pointer">Contact</a></li>
+    </ul>
+    <div class="flex items-center space-x-4">
+        <div class="relative" id="profile-container">
+            <button (click)="toggleProfileDropdown()" class="flex items-center space-x-2 text-white hover:text-gray-300 focus:outline-none">
+                <i class="fas fa-user-circle text-2xl"></i>
+                <span class="text-lg">profile</span>
+            </button>
+            <div [class.hidden]="!isProfileDropdownOpen" class="absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-lg py-2 z-50 border border-gray-200">
+                <a (click)="navigateToProfile()" class="block px-5 py-2 text-[#1B4B88] font-medium transition-all duration-150 hover:bg-blue-50 hover:text-blue-900 rounded cursor-pointer">My Profile</a>
+                <a (click)="navigateToAppointments()" class="block px-5 py-2 text-[#1B4B88] font-medium transition-all duration-150 hover:bg-blue-50 hover:text-blue-900 rounded cursor-pointer">My Appointments</a>
+                <a (click)="navigateToVehicles()" class="block px-5 py-2 text-[#1B4B88] font-medium transition-all duration-150 hover:bg-blue-50 hover:text-blue-900 rounded cursor-pointer">My Vehicles</a>
+                <div class="border-t border-gray-200 my-1"></div>
+                <a (click)="openLogoutModal()" class="block px-5 py-2 text-red-600 font-medium transition-all duration-150 hover:bg-red-50 hover:text-red-800 rounded cursor-pointer">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Menu (initially hidden) -->
+<div id="mobile-menu" class="fixed top-20 left-0 w-full bg-[#1B4B88] shadow-lg z-40 hidden">
+    <ul class="flex flex-col space-y-4 p-6">
+        <li><a (click)="scrollToSection('home')" class="text-white hover:text-gray-300 transition block cursor-pointer">Home</a></li>
+        <li><a (click)="scrollToSection('about')" class="text-white hover:text-gray-300 transition block cursor-pointer">About</a></li>
+        <li><a (click)="scrollToSection('services')" class="text-white hover:text-gray-300 transition block cursor-pointer">Services</a></li>
+        <li><a (click)="scrollToSection('contact')" class="text-white hover:text-gray-300 transition block cursor-pointer">Contact</a></li>
+    </ul>
+</div>
+
+
+
+<!-- Hero Section -->
+<section id="home" class="relative h-screen bg-[url('/assets/hero-bg.jpg')] bg-cover bg-center">
+    <div class="absolute inset-0 hero-overlay"></div>
+    <div class="absolute top-[10%]  text-center w-full px-4">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">PROFESSIONAL AUTO REPAIR & MAINTENANCE</h1>
+        <h4 class="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto">
+            We are dedicated to providing high-quality auto repair and maintenance to keep you and your car safe on the road.
+        </h4>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <button (click)="navigateToBookAppointment()" class="bg-[#1B4B88] hover:bg-blue-900 text-white px-8 py-3 text-lg font-semibold rounded-lg transition transform hover:scale-105 shadow-lg">
+                Book Appointment
+            </button>
+            <button (click)="scrollToSection('services')" class="bg-white hover:bg-gray-100 text-[#1B4B88] px-8 py-3 text-lg font-semibold rounded-lg transition transform hover:scale-105 shadow-lg">
+                Our Services
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-16 bg-white">
+    <div class="container mx-auto px-6 max-w-6xl">
+        <div class="text-center mb-12">
+            <span class="text-[#1B4B88] font-semibold uppercase tracking-wider text-sm">About Us</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-4">Quality Auto Care Since 2010</h2>
+        </div>
+        
+        <div class="flex flex-col lg:flex-row items-center gap-12">
+            <div class="lg:w-1/2">
+                <div class="prose max-w-none">
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        At MechniQ, we are committed to keeping your vehicle in top condition with our expert maintenance and repair services. Our skilled technicians use advanced tools and genuine parts to ensure your car performs at its best.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-8">
+                        We prioritize transparent, affordable services with a focus on your satisfaction. From routine maintenance to complex repairs, we handle every job with professionalism and attention to detail.
+                    </p>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <svg class="h-5 w-5 text-[#1B4B88]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-gray-600">ASE-Certified Technicians</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <svg class="h-5 w-5 text-[#1B4B88]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-gray-600">Premium Quality Parts</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <svg class="h-5 w-5 text-[#1B4B88]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-gray-600">Fair & Transparent Pricing</p>
+                        </div>
+                    </div>
+                    
+                    <button (click)="navigateToContact()" class="inline-block bg-[#1B4B88] hover:bg-blue-700 text-white px-6 py-3 font-medium rounded-md transition duration-200">
+                        Contact Our Team
+                    </button>
+                </div>
+            </div>
+            
+            <div class="lg:w-1/2">
+                <div class="overflow-hidden rounded-lg shadow-md">
+                    <img src="assets/about.jpg" alt="Our auto service center" class="w-full h-auto object-cover transition duration-500 hover:scale-105">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+            <span class="text-[#1B4B88] font-semibold">OUR SERVICES</span>
+            <h2 class="text-4xl font-bold text-[#1B4B88] mt-2">Premium Auto Services</h2>
+            <div class="w-20 h-1 bg-[#1B4B88] mx-auto mt-4"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div *ngFor="let service of services" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition hover:-translate-y-2">
+                <div class="h-48 mb-4 overflow-hidden rounded-lg">
+                    <img [src]="service.image" [alt]="service.name" class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-xl font-semibold text-[#1B4B88]">{{ service.name }}</h3>
+                <p class="text-gray-600 mt-2 mb-4">{{ service.description }}</p>
+                <button (click)="bookService(service.id)" class="text-[#1B4B88] font-semibold hover:underline flex items-center">
+                    Book Now <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <button (click)="navigateToBookAppointment()" class="inline-block bg-[#1B4B88] hover:bg-blue-900 text-white px-8 py-3 text-lg font-semibold rounded-lg transition transform hover:scale-105">
+                View All Services
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+            <span class="text-[#1B4B88] font-semibold">CONTACT US</span>
+            <h2 class="text-4xl font-bold text-[#1B4B88] mt-2">Get In Touch</h2>
+            <div class="w-20 h-1 bg-[#1B4B88] mx-auto mt-4"></div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-12">
+            <div class="lg:w-1/2">
+                <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="bg-gray-50 p-8 rounded-lg shadow-md">
+                    <div class="mb-6">
+                        <label for="name" class="block text-lg font-medium text-gray-700 mb-2">Your Name <span class="text-red-600">*</span></label>
+                        <input type="text" id="name" formControlName="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1B4B88] focus:border-[#1B4B88] transition" required>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="email" class="block text-lg font-medium text-gray-700 mb-2">Your Email <span class="text-red-600">*</span></label>
+                        <input type="email" id="email" formControlName="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1B4B88] focus:border-[#1B4B88] transition" required>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="phone" class="block text-lg font-medium text-gray-700 mb-2">Phone Number <span class="text-red-600">*</span></label>
+                        <input type="tel" id="phone" formControlName="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1B4B88] focus:border-[#1B4B88] transition" required>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="message" class="block text-lg font-medium text-gray-700 mb-2">Your Message <span class="text-red-600">*</span></label>
+                        <textarea id="message" formControlName="message" rows="5" maxlength="500" minlength="500" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1B4B88] focus:border-[#1B4B88] transition" required></textarea>
+                        <div class="text-right text-sm text-gray-500 mt-1">
+        {{ contactForm.get('message')?.value?.length || 0 }}/500
+    </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-[#1B4B88] hover:bg-blue-900 text-white py-3 px-6 rounded-lg font-semibold text-lg transition transform hover:scale-105">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+            
+            <div class="lg:w-1/2">
+                <div class="bg-gray-50 p-8 rounded-lg shadow-md h-full">
+                    <h3 class="text-2xl font-bold text-[#1B4B88] mb-6">Our Information</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1 text-[#1B4B88]">
+                                <i class="fas fa-map-marker-alt text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Address</h4>
+                                <p class="text-gray-600">rs puram, coimbatore</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1 text-[#1B4B88]">
+                                <i class="fas fa-phone-alt text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Phone</h4>
+                                <p class="text-gray-600">9345260068</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1 text-[#1B4B88]">
+                                <i class="fas fa-envelope text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Email</h4>
+                                <p class="text-gray-600">info&#64;mechniq.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1 text-[#1B4B88]">
+                                <i class="fas fa-clock text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Working Hours</h4>
+                                <p class="text-gray-600">Monday - Friday: 8:00 AM - 6:00 PM</p>
+                                <p class="text-gray-600">Saturday: 9:00 AM - 4:00 PM</p>
+                                <p class="text-gray-600">Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-[#1B4B88] text-white pt-20 pb-12 relative">
+    <div class="wave"></div>
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h4 class="text-2xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-car mr-2"></i>
+                    <span>MechniQ</span>
+                </h4>
+                <p class="mb-4">Your trusted partner for all vehicle maintenance and repair needs.</p>
+                <div class="flex space-x-4">
+                    <a href="https://www.facebook.com/" class="text-white hover:text-gray-200 transition">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com/" class="text-white hover:text-gray-200 transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com/" class="text-white hover:text-gray-200 transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/" class="text-white hover:text-gray-200 transition">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-xl font-semibold mb-4">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="#home" class="hover:text-gray-200 transition">Home</a></li>
+                    <li><a href="#about" class="hover:text-gray-200 transition">About Us</a></li>
+                    <li><a href="#services" class="hover:text-gray-200 transition">Services</a></li>
+                    <li><a href="#contact" class="hover:text-gray-200 transition">Contact</a></li>
+                    <li><a (click)="navigateToProfile()" class="hover:text-gray-200 transition cursor-pointer">My Profile</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xl font-semibold mb-4">Services</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-gray-200 transition">AC Service</a></li>
+                    <li><a href="#" class="hover:text-gray-200 transition">Battery Check</a></li>
+                    <li><a href="#" class="hover:text-gray-200 transition">Brake Service</a></li>
+                    <li><a href="#" class="hover:text-gray-200 transition">Oil Change</a></li>
+                    <li><a href="#" class="hover:text-gray-200 transition">Tire Service</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xl font-semibold mb-4">Contact Info</h4>
+                <ul class="space-y-2">
+                    <li class="flex items-start">
+                        <i class="fas fa-map-marker-alt mt-1 mr-2"></i>
+                        <span>rs puram,coimbatore</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-phone-alt mr-2"></i>
+                        <span>9345260068</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-envelope mr-2"></i>
+                        <span>info&#64;mechniq.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="border-t border-blue-700 mt-12 pt-8 text-center">
+            <p>&copy; 2023 MechniQ. All rights reserved.</p>
+            <div class="mt-4 text-sm">
+                <a href="#" class="hover:text-gray-200 transition">Privacy Policy</a> | 
+                <a href="#" class="hover:text-gray-200 transition">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Logout Modal -->
+<div *ngIf="showLogoutModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3 class="text-xl font-bold mb-4">Confirm Logout</h3>
+        <p class="mb-6">Are you sure you want to logout?</p>
+        <div class="flex justify-end space-x-4">
+            <button (click)="cancelLogout()" class="px-4 py-2 text-gray-600 hover:text-gray-800">Cancel</button>
+            <button (click)="logout()" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Logout</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" [class.show]="showToast" [class.error]="isToastError" class="toast">
+    <i [class]="toastIcon"></i>
+    <span>{{ toastMessage }}</span>
+</div>

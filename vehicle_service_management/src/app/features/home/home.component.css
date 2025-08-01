@@ -1,0 +1,121 @@
+/* Scroll arrow styles */
+.scroll-arrow {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(27, 75, 136, 0.9);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.scroll-arrow:hover {
+    background-color: rgba(27, 75, 136, 1);
+    transform: scale(1.1);
+}
+.scroll-up {
+    right: 30px;
+    bottom: 100px;
+    opacity: 0;
+    visibility: hidden;
+}
+.scroll-down {
+    right: 30px;
+    bottom: 30px;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Toast notification */
+.toast {
+    position: fixed;
+    
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.toast.show {
+    opacity: 1;
+}
+.toast.error {
+    background-color: #f44336;
+}
+
+/* Scroll to Top Button */
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(27, 75, 136, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.scroll-to-top:hover {
+    background-color: rgba(27, 75, 136, 1);
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.scroll-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .scroll-arrow {
+        width: 40px;
+        height: 40px;
+        right: 20px;
+    }
+    .scroll-up {
+        bottom: 90px;
+    }
+    .scroll-to-top {
+        width: 45px;
+        height: 45px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 16px;
+    }
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+/* Add padding to all sections to account for fixed navbar */
+section {
+    scroll-margin-top: 80px;
+}
+/* Ensure body has padding equal to navbar height */

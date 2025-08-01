@@ -1,0 +1,29 @@
+<!-- Fixed Navigation Bar -->
+<nav class="fixed top-0 left-0 w-full flex items-center justify-between px-6 py-6 bg-[#1B4B88] shadow-md z-50">
+    <div class="text-2xl font-bold text-white flex items-center">
+        <i class="fas fa-car mr-2"></i>
+        <span>MechniQ</span>
+    </div>
+    <ul class="hidden md:flex gap-12 text-lg font-semibold">
+        <li><a (click)="scrollTo('home')" class="text-white hover:text-gray-300 transition cursor-pointer">Home</a></li>
+        <li><a (click)="scrollTo('about')" class="text-white hover:text-gray-300 transition cursor-pointer">About</a></li>
+        <li><a (click)="scrollTo('services')" class="text-white hover:text-gray-300 transition cursor-pointer">Services</a></li>
+        <li><a (click)="scrollTo('contact')" class="text-white hover:text-gray-300 transition cursor-pointer">Contact</a></li>
+    </ul>
+    <div class="flex items-center space-x-4">
+        <a routerLink="/login" class="text-white hover:text-gray-300 text-lg font-semibold transition">Login</a>
+        <button class="md:hidden text-white" (click)="toggleMenu()">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div *ngIf="isMenuOpen" class="fixed top-20 left-0 w-full bg-[#1B4B88] shadow-lg z-40">
+    <ul class="flex flex-col space-y-4 p-6">
+        <li><a (click)="scrollTo('home'); toggleMenu()" class="text-white hover:text-gray-300 transition block cursor-pointer">Home</a></li>
+        <li><a (click)="scrollTo('about'); toggleMenu()" class="text-white hover:text-gray-300 transition block cursor-pointer">About</a></li>
+        <li><a (click)="scrollTo('services'); toggleMenu()" class="text-white hover:text-gray-300 transition block cursor-pointer">Services</a></li>
+        <li><a (click)="scrollTo('contact'); toggleMenu()" class="text-white hover:text-gray-300 transition block cursor-pointer">Contact</a></li>
+    </ul>
+</div>

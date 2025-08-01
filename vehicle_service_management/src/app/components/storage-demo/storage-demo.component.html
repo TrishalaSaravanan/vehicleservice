@@ -1,0 +1,79 @@
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-6">Local Storage & Authentication Demo</h1>
+  
+  <!-- Login Testing Section -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-2xl font-semibold mb-4">Test Login Functionality</h2>
+    
+    <div class="grid md:grid-cols-3 gap-4 mb-6">
+      <div class="bg-blue-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-blue-800">Admin Login</h3>
+        <p class="text-sm text-gray-600">Email: admin&#64;mechniq.com</p>
+        <p class="text-sm text-gray-600">Password: admin123</p>
+        <button (click)="testLogin('admin@mechniq.com', 'admin123')" 
+                class="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+          Test Login
+        </button>
+      </div>
+      
+      <div class="bg-green-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-green-800">Mechanic Login</h3>
+        <p class="text-sm text-gray-600">Email: mechanic&#64;mechniq.com</p>
+        <p class="text-sm text-gray-600">Password: mechanic123</p>
+        <button (click)="testLogin('mechanic@mechniq.com', 'mechanic123')" 
+                class="mt-2 bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">
+          Test Login
+        </button>
+      </div>
+      
+      <div class="bg-purple-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-purple-800">Customer Login</h3>
+        <p class="text-sm text-gray-600">Email: customer&#64;mechniq.com</p>
+        <p class="text-sm text-gray-600">Password: customer123</p>
+        <button (click)="testLogin('customer@mechniq.com', 'customer123')" 
+                class="mt-2 bg-purple-600 text-white px-3 py-1 rounded text-sm hover:bg-purple-700">
+          Test Login
+        </button>
+      </div>
+    </div>
+    
+    <div class="flex gap-4 mb-4">
+      <!-- Reinitialize Users button removed -->
+      <button (click)="logout()" 
+              class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
+        Logout
+      </button>
+      <a routerLink="/login" 
+         class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 inline-block">
+        Go to Login Page
+      </a>
+    </div>
+    
+    <div *ngIf="loginResult" class="mt-4 p-3 rounded" 
+         [ngClass]="loginResult.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+      <strong>Login Result:</strong> {{loginResult.message}}
+      <!-- User details removed, only show role and email if needed -->
+      <div *ngIf="currentUser" class="mt-2 text-sm">
+        User: {{currentUser.email}} ({{currentUser.role}})
+      </div>
+    </div>
+  </div>
+  
+  <!-- Current User Section -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <h2 class="text-2xl font-semibold mb-4">Current User Status</h2>
+    <div *ngIf="currentUser; else noUser" class="bg-blue-50 p-4 rounded-lg">
+      <h3 class="font-semibold">Logged in as: {{currentUser.email}}</h3>
+      <p><strong>Role:</strong> {{currentUser.role}}</p>
+      <p><strong>ID:</strong> {{currentUser.id}}</p>
+    </div>
+    <ng-template #noUser>
+      <div class="bg-gray-50 p-4 rounded-lg">
+        <p class="text-gray-600">No user currently logged in</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- User Data Section removed: allUsers, admins, mechanics, customers, getRoleBadgeClass -->
+  <!-- User Data Section removed: allUsers, admins, mechanics, customers, getRoleBadgeClass -->
+</div>

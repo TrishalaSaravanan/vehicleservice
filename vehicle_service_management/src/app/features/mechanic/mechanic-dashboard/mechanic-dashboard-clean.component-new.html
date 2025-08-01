@@ -1,0 +1,505 @@
+<!-- Mechanic Dashboard with Tabbed Interface like Admin Service Management -->
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-xl font-semibold text-gray-900">
+                            <i class="fas fa-wrench text-blue-600 mr-2"></i>
+                            MechaniQ
+                        </h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button (click)="toggleNotifications()" 
+                                class="relative p-2 text-gray-400 hover:text-gray-500">
+                            <i class="fas fa-bell text-lg"></i>
+                            <span *ngIf="notificationCount > 0" 
+                                  class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                {{ notificationCount }}
+                            </span>
+                        </button>
+                        <!-- Notifications Dropdown -->
+                        <div *ngIf="showNotifications" 
+                             class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                            <div class="p-4 border-b border-gray-200">
+                                <h3 class="text-sm font-semibold text-gray-900">Notifications</h3>
+                            </div>
+                            <div class="max-h-64 overflow-y-auto">
+                                <div *ngFor="let notification of notifications" 
+                                     class="p-4 border-b border-gray-100 hover:bg-gray-50">
+                                    <div class="flex items-start space-x-3">
+                                        <div [class]="notification.iconBg" class="rounded-full p-2">
+                                            <i [class]="notification.icon"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-medium text-gray-900">{{ notification.title }}</p>
+                                            <p class="text-sm text-gray-500">{{ notification.description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Profile -->
+                    <div class="relative">
+                        <a routerLink="/mechanic/profile" class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="hidden md:inline text-sm font-medium text-gray-700">{{ mechanicName }}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Pending Jobs</p>
+                        <p class="text-2xl font-semibold text-gray-800">{{ pendingJobs }}</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-full">
+                        <i class="fas fa-clock text-blue-600"></i>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <span class="text-xs font-medium text-blue-600">+1 from yesterday</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">In Progress</p>
+                        <p class="text-2xl font-semibold text-gray-800">{{ inProgress }}</p>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded-full">
+                        <i class="fas fa-tools text-yellow-600"></i>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <span class="text-xs font-medium text-yellow-600">2 due today</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Completed</p>
+                        <p class="text-2xl font-semibold text-gray-800">{{ completedToday }}</p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-full">
+                        <i class="fas fa-check-circle text-green-600"></i>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <span class="text-xs font-medium text-green-600">+3 this week</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Avg. Rating</p>
+                        <p class="text-2xl font-semibold text-gray-800">{{ avgRating }}</p>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-full">
+                        <i class="fas fa-star text-purple-600"></i>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <span class="text-xs font-medium text-purple-600">+0.2 this month</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabbed Interface like Admin Service Management -->
+        <div class="bg-white rounded-xl shadow-sm">
+            <!-- Tab Navigation -->
+            <div class="border-b border-gray-200">
+                <nav class="flex space-x-8 px-6" aria-label="Tabs">
+                    <button (click)="setActiveTab('workorders')" 
+                            [class]="activeTab === 'workorders' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        <i class="fas fa-clipboard-list mr-2"></i>
+                        Work Orders
+                    </button>
+                    <button (click)="setActiveTab('inventory')" 
+                            [class]="activeTab === 'inventory' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        <i class="fas fa-boxes mr-2"></i>
+                        Parts Inventory
+                    </button>
+                    <button (click)="setActiveTab('history')" 
+                            [class]="activeTab === 'history' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        <i class="fas fa-history mr-2"></i>
+                        Service History
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="p-6">
+                <!-- Work Orders Tab -->
+                <div *ngIf="activeTab === 'workorders'">
+                    <!-- Search and Filter -->
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 space-y-4 md:space-y-0">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative">
+                                <input type="text" 
+                                       [(ngModel)]="workOrdersSearchTerm"
+                                       (input)="onWorkOrdersSearchChange()"
+                                       placeholder="Search work orders..." 
+                                       class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <div class="absolute left-3 top-2.5 text-gray-400">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </div>
+                            <select [(ngModel)]="workOrdersStatusFilter" 
+                                    (change)="filterWorkOrders()"
+                                    class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="all">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Work Orders Table -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Job</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Due Date</th>
+                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr *ngFor="let job of paginatedWorkOrders" class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="font-medium text-gray-900">{{ job.title }}</div>
+                                        <div class="text-sm text-gray-500" *ngIf="job.adminNotes">{{ job.adminNotes }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ job.customer }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ job.vehicle }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span [ngClass]="{
+                                          'bg-orange-100 text-orange-800': job.status === 'pending',
+                                          'bg-blue-100 text-blue-800': job.status === 'in-progress',
+                                          'bg-green-100 text-green-800': job.status === 'completed'
+                                        }" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+                                            {{ job.status === 'in-progress' ? 'In Progress' : (job.status | titlecase) }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ job.dueDate }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button (click)="showUpdateJobForm(job)"
+                                                class="text-blue-600 hover:text-blue-900 mr-3">
+                                            <i class="fas fa-edit mr-1"></i>Update
+                                        </button>
+                                        <button (click)="showCustomerDetailsModal(job)"
+                                                class="text-gray-600 hover:text-gray-900">
+                                            <i class="fas fa-user mr-1"></i>Customer
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div *ngIf="filteredWorkOrders.length === 0" class="text-center py-12">
+                        <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-clipboard-list text-3xl text-gray-400"></i>
+                        </div>
+                        <p class="text-gray-500 text-lg mb-2">No work orders found</p>
+                        <p class="text-gray-400 text-sm">
+                            <span *ngIf="workOrdersSearchTerm || workOrdersStatusFilter !== 'all'">Try adjusting your search or filter criteria.</span>
+                            <span *ngIf="!workOrdersSearchTerm && workOrdersStatusFilter === 'all'">New work orders will appear here when assigned.</span>
+                        </p>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div *ngIf="filteredWorkOrders.length > 0" class="flex justify-between items-center mt-6">
+                        <div class="text-sm text-gray-600">
+                            Showing <span class="font-medium">{{ workOrdersShowingFrom }}</span> to <span class="font-medium">{{ workOrdersShowingTo }}</span> of <span class="font-medium">{{ filteredWorkOrders.length }}</span> work orders
+                        </div>
+                        <div class="flex space-x-1">
+                            <button (click)="prevWorkOrdersPage()"
+                                    [disabled]="workOrdersCurrentPage === 1"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button *ngFor="let page of workOrdersPageNumbers"
+                                    (click)="goToWorkOrdersPage(page)"
+                                    [class]="page === workOrdersCurrentPage ? 'bg-blue-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'"
+                                    class="px-3 py-1 rounded-md text-sm">
+                                {{ page }}
+                            </button>
+                            <button (click)="nextWorkOrdersPage()"
+                                    [disabled]="workOrdersCurrentPage === workOrdersTotalPages"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parts Inventory Tab -->
+                <div *ngIf="activeTab === 'inventory'">
+                    <!-- Search and Filter -->
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 space-y-4 md:space-y-0">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative">
+                                <input type="text" 
+                                       [(ngModel)]="partsSearchTerm"
+                                       placeholder="Search parts..." 
+                                       class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <div class="absolute left-3 top-2.5 text-gray-400">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </div>
+                            <select [(ngModel)]="partsCategoryFilter"
+                                    class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="all">All Categories</option>
+                                <option value="Engine">Engine</option>
+                                <option value="Brakes">Brakes</option>
+                                <option value="Electrical">Electrical</option>
+                                <option value="Fluids">Fluids</option>
+                            </select>
+                            <select [(ngModel)]="partsStatusFilter"
+                                    class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="all">All Status</option>
+                                <option value="Available">Available</option>
+                                <option value="Low Stock">Low Stock</option>
+                                <option value="Out of Stock">Out of Stock</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Parts Table -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Part</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Part Number</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr *ngFor="let part of paginatedParts" class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                                <i class="fas fa-cube text-blue-600 text-sm"></i>
+                                            </div>
+                                            <div class="font-medium text-gray-900">{{ part.name }}</div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ part.partNumber }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ part.category }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ part.quantity }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${{ part.price }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span [ngClass]="{
+                                          'bg-green-100 text-green-800': part.status === 'Available',
+                                          'bg-yellow-100 text-yellow-800': part.status === 'Low Stock',
+                                          'bg-red-100 text-red-800': part.status === 'Out of Stock'
+                                        }" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+                                            {{ part.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Parts Pagination -->
+                    <div *ngIf="filteredParts.length > 0" class="flex justify-between items-center mt-6">
+                        <div class="text-sm text-gray-600">
+                            Showing {{ (partsCurrentPage - 1) * partsPageSize + 1 }} to {{ Math.min(partsCurrentPage * partsPageSize, filteredParts.length) }} of {{ filteredParts.length }} parts
+                        </div>
+                        <div class="flex space-x-1">
+                            <button [disabled]="partsCurrentPage === 1"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-sm disabled:opacity-50">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button *ngFor="let page of partsPageNumbers"
+                                    [class]="page === partsCurrentPage ? 'bg-blue-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'"
+                                    class="px-3 py-1 rounded-md text-sm">
+                                {{ page }}
+                            </button>
+                            <button [disabled]="partsCurrentPage === partsTotalPages"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-sm disabled:opacity-50">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service History Tab -->
+                <div *ngIf="activeTab === 'history'">
+                    <!-- Search and Filter -->
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 space-y-4 md:space-y-0">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative">
+                                <input type="text" 
+                                       [(ngModel)]="historySearchTerm"
+                                       placeholder="Search service history..." 
+                                       class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <div class="absolute left-3 top-2.5 text-gray-400">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </div>
+                            <select [(ngModel)]="historyStatusFilter"
+                                    class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="all">All Status</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Pending">Pending</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Service History Table -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cost</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr *ngFor="let history of paginatedHistory" class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ history.date | date:'MMM dd, yyyy' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ history.customer }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ history.vehicle }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="font-medium text-gray-900">{{ history.service }}</div>
+                                        <div class="text-sm text-gray-500" *ngIf="history.parts.length > 0">
+                                            Parts: {{ history.parts.join(', ') }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ history.duration }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${{ history.cost }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex">
+                                                <i *ngFor="let star of [1,2,3,4,5]" 
+                                                   [class]="star <= history.rating ? 'fas fa-star text-yellow-400' : 'far fa-star text-gray-300'"
+                                                   class="text-sm"></i>
+                                            </div>
+                                            <span class="ml-2 text-sm text-gray-500">({{ history.rating }}/5)</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- History Pagination -->
+                    <div *ngIf="filteredHistory.length > 0" class="flex justify-between items-center mt-6">
+                        <div class="text-sm text-gray-600">
+                            Showing {{ (historyCurrentPage - 1) * historyPageSize + 1 }} to {{ Math.min(historyCurrentPage * historyPageSize, filteredHistory.length) }} of {{ filteredHistory.length }} records
+                        </div>
+                        <div class="flex space-x-1">
+                            <button [disabled]="historyCurrentPage === 1"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-sm disabled:opacity-50">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button *ngFor="let page of historyPageNumbers"
+                                    [class]="page === historyCurrentPage ? 'bg-blue-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'"
+                                    class="px-3 py-1 rounded-md text-sm">
+                                {{ page }}
+                            </button>
+                            <button [disabled]="historyCurrentPage === historyTotalPages"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-sm disabled:opacity-50">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Keep existing modals -->
+<!-- Accept Job Modal -->
+<div *ngIf="showAcceptModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-800">Accept Job</h3>
+            <button (click)="hideAcceptPopup()" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <p class="text-gray-600 mb-6">Are you sure you want to accept this job? Once accepted, you'll be responsible for completing it.</p>
+        <div class="flex justify-end space-x-3">
+            <button (click)="hideAcceptPopup()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md text-sm font-medium transition">
+                Cancel
+            </button>
+            <button (click)="acceptJob()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                Confirm Accept
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Customer Details Modal -->
+<div *ngIf="showCustomerModal && selectedJob" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-800">Customer Details</h3>
+            <button (click)="hideCustomerDetails()" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="space-y-4">
+            <div class="flex items-center space-x-4">
+                <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center">
+                    <i class="fas fa-user text-blue-600 text-2xl"></i>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-800">{{ getCustomerName(selectedJob.customer) }}</h4>
+                    <p class="text-sm text-gray-600">Customer since: Jan 2022</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Contact</p>
+                    <p class="text-gray-800">{{ getCustomerPhone(selectedJob.customer) }}</p>
+                    <p class="text-gray-800">{{ getCustomerEmail(selectedJob.customer) }}</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Address</p>
+                    <p class="text-gray-800">123 Main St, Apt 4B</p>
+                    <p class="text-gray-800">Anytown, NY 12345</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

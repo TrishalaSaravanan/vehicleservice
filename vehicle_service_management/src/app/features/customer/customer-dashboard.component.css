@@ -1,0 +1,31 @@
+.dashboard-container { max-width: 700px; margin: 0 auto; padding: 2rem; }
+.profile-section, .vehicles-section, .appointments-section { margin-bottom: 2rem; }
+.dashboard-container h2 {
+  color: #1B4B88;
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+.dashboard-container h3 {
+  color: #1B4B88;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.dashboard-container p, .dashboard-container li, .dashboard-container td, .dashboard-container th {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  text-align: center;
+}
+.dashboard-container, .dashboard-container p, .dashboard-container li, .dashboard-container td, .dashboard-container th {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+table { width: 100%; border-collapse: collapse; }
+th, td { border: 1px solid #ddd; padding: 8px; }
+th { background: #f4f4f4; }

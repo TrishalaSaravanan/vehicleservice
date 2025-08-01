@@ -1,0 +1,6 @@
+.password-container { position: relative; }
+.toggle-password { position: absolute; right: 12px; top: 38px; cursor: pointer; color: #6b7280; }
+.section-divider { border-top: 1px solid #e5e7eb; margin: 1.5rem 0; }
+.toast { background-color: #1B4B88; color: white; padding: 16px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; margin-top: 1rem; }
+.toast-success { background-color: #10B981; }
+.toast-icon { margin-right: 12px; }

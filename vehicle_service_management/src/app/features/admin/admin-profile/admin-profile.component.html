@@ -1,0 +1,94 @@
+<div class="admin-profile-container">
+  <div class="profile-card">
+    <!-- Back Button -->
+    <button (click)="goBackToAdmin()" class="back-button">
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </button>
+
+    <!-- Profile Header -->
+    <div class="profile-header" *ngIf="!isEditMode">
+      <div class="profile-image-container" (click)="triggerImageUpload()">
+        <img [src]="profileImage" alt="Profile" class="profile-image">
+        <div class="image-overlay">
+          <i class="fas fa-camera"></i>
+        </div>
+        <input type="file" id="imageUpload" class="hidden-input" accept="image/*" (change)="onImageUpload($event)">
+      </div>
+      <h1 class="profile-title">Admin Profile</h1>
+      <p class="last-login">Last login: <span>{{ lastLogin }}</span></p>
+    </div>
+
+    <!-- Profile View -->
+    <div class="profile-view" *ngIf="!isEditMode">
+      <div class="profile-field">
+        <span class="field-label">Name:</span>
+        <span class="field-value">{{ adminName }}</span>
+      </div>
+      <div class="profile-field">
+        <span class="field-label">Email:</span>
+        <span class="field-value">{{ adminEmail }}</span>
+      </div>
+      <div class="profile-field">
+        <span class="field-label">Role:</span>
+        <span class="field-value">{{ adminRole }}</span>
+      </div>
+      <div class="profile-field">
+        <span class="field-label">Joined:</span>
+        <span class="field-value">{{ joinDate }}</span>
+      </div>
+      <button (click)="openEditProfile()" class="edit-button">
+        <i class="fas fa-edit"></i>
+        Edit Profile
+      </button>
+    </div>
+
+    <!-- Edit Profile Form -->
+    <div class="edit-profile" *ngIf="isEditMode">
+      <h2 class="edit-title">Edit Profile</h2>
+      <form class="edit-form" (ngSubmit)="saveProfile()">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input 
+            type="text" 
+            [(ngModel)]="editName" 
+            name="editName"
+            class="form-input" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input 
+            type="email" 
+            [(ngModel)]="editEmail" 
+            name="editEmail"
+            class="form-input disabled" 
+            disabled>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <select 
+            [(ngModel)]="editRole" 
+            name="editRole"
+            class="form-select">
+            <option value="super_admin">Super Admin</option>
+            <option value="admin">Admin</option>
+            <option value="moderator">Moderator</option>
+          </select>
+        </div>
+        
+        <div class="button-group">
+          <button type="submit" class="save-button">
+            <i class="fas fa-save"></i>
+            Save Changes
+          </button>
+          <button type="button" (click)="closeEditProfile()" class="cancel-button">
+            <i class="fas fa-times"></i>
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

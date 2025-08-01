@@ -1,0 +1,18 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div *ngFor="let stat of stats" 
+       class="stat-card bg-white p-6 rounded-xl shadow-md border-l-4 {{stat.borderColor}} transition duration-300">
+    <div class="flex justify-between items-start">
+      <div>
+        <p class="text-gray-500">{{stat.title}}</p>
+        <p class="text-3xl font-bold {{stat.textColor}} mt-2">{{stat.value}}</p>
+      </div>
+      <div class="{{stat.bgColor}} p-3 rounded-lg">
+        <!-- Simple icon placeholder -->
+        <span class="{{stat.textColor}}">📊</span>
+      </div>
+    </div>
+    <p class="text-sm {{stat.trend === 'up' ? 'text-green-600' : 'text-red-600'}} mt-2">
+      {{stat.trend === 'up' ? '↑' : '↓'}} {{stat.change}}
+    </p>
+  </div>
+</div>

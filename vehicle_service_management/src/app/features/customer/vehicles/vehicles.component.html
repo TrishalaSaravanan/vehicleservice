@@ -1,0 +1,106 @@
+<div class="w-full min-h-screen" style="background: linear-gradient(135deg, #e3f0ff 0%, #f8faff 100%);">
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+  <!-- Header with Back Button -->
+  <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center">
+      <button (click)="navigateHome()" class="mr-4 text-[#1B4B88] hover:text-blue-900">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+      </button>
+      <h1 class="text-2xl font-bold text-[#1B4B88]">My Vehicles</h1>
+    </div>
+    <button (click)="showAddVehicleModal()" class="bg-[#1B4B88] text-white py-2 px-4 rounded-lg hover:bg-blue-900 transition flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+      </svg>
+      Add Vehicle
+    </button>
+  </div>
+  <!-- Vehicle List -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+    <div *ngIf="vehicles.length === 0" class="text-gray-500">No vehicles found. Add your first vehicle!</div>
+    <div *ngFor="let v of vehicles" class="border border-gray-200 rounded-lg p-4 mb-4 relative">
+      <div class="flex justify-between items-start">
+        <div>
+          <h3 class="font-bold text-gray-800 text-lg">{{ v.make }} {{ v.model }} {{ v.year }}</h3>
+          <p class="text-gray-600">License: {{ v.license_plate }}</p>
+          <p class="text-gray-600">VIN: {{ v.vin }}</p>
+          <p class="text-gray-600">Mileage: {{ v.mileage }} km</p>
+        </div>
+      </div>
+      <div class="mt-4 flex space-x-2">
+        <button (click)="onRemoveVehicle(v.id)" class="text-sm bg-gray-100 text-red-600 px-3 py-1 rounded hover:bg-gray-200 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+          Remove
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Add Vehicle Modal -->
+  <div *ngIf="showAddModal" class="modal flex">
+    <div class="modal-content">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-[#1B4B88]">Add New Vehicle</h3>
+        <button (click)="closeModal()" class="text-gray-500 hover:text-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <form (ngSubmit)="onAddVehicle()" #addVehicleForm="ngForm">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-gray-700 mb-1">Make (Brand)</label>
+            <input type="text" class="w-full p-2 border border-gray-300 rounded-lg" required [(ngModel)]="newVehicle.brand" name="brand">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-1">Model</label>
+            <input type="text" class="w-full p-2 border border-gray-300 rounded-lg" required [(ngModel)]="newVehicle.model" name="model">
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-gray-700 mb-1">Year</label>
+            <input type="number" class="w-full p-2 border border-gray-300 rounded-lg" required [(ngModel)]="newVehicle.year" name="year">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-1">License Plate</label>
+            <input type="text" class="w-full p-2 border border-gray-300 rounded-lg" required [(ngModel)]="newVehicle.licensePlate" name="licensePlate">
+          </div>
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 mb-1">VIN</label>
+          <input type="text" class="w-full p-2 border border-gray-300 rounded-lg" required [(ngModel)]="newVehicle.vin" name="vin">
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 mb-1">Current Mileage (km)</label>
+          <input type="number" class="w-full p-2 border border-gray-300 rounded-lg" [(ngModel)]="newVehicle.mileage" name="mileage">
+        </div>
+        <div class="flex justify-end space-x-3">
+          <button type="button" (click)="closeModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100">
+            Cancel
+          </button>
+          <button type="submit" class="px-4 py-2 bg-[#1B4B88] text-white rounded-lg hover:bg-blue-900">
+            Save Vehicle
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Success Modal -->
+  <div *ngIf="showSuccessModal" class="modal flex">
+    <div class="modal-content text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+      <h3 class="text-xl font-bold text-gray-800 mb-2">Vehicle Added Successfully!</h3>
+      <p class="text-gray-600 mb-6">Your new vehicle has been added to your profile.</p>
+      <button (click)="closeSuccessModal()" class="w-full bg-[#1B4B88] text-white py-2 px-4 rounded-lg hover:bg-blue-900">
+        OK
+      </button>
+    </div>
+  </div>
+</div>

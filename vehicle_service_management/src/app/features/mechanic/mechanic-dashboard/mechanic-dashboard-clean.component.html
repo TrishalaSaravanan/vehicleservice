@@ -1,0 +1,414 @@
+<!-- Mechanic Dashboard Content (without sidebar - handled by layout) -->
+<div class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm p-4">
+        <div class="flex items-center justify-end">
+            <!-- Remove the left-side Dashboard title for md+ screens -->
+            <h1 class="text-xl font-semibold text-gray-800 md:hidden flex-1">Dashboard</h1>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button (click)="toggleNotifications()" class="text-gray-600 hover:text-darkblue-600 relative">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{{ notificationCount }}</span>
+                    </button>
+                    <div *ngIf="showNotifications" class="absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg z-50 py-1">
+                        <div class="px-4 py-2 border-b border-gray-200">
+                            <h3 class="text-sm font-medium text-gray-800">Notifications</h3>
+                        </div>
+                        <div *ngFor="let notification of notifications" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-b border-gray-100">
+                            <div class="flex items-center">
+                                <div [class]="notification.iconBg" class="flex-shrink-0 rounded-full p-2">
+                                    <i [class]="notification.icon"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="font-medium">{{ notification.title }}</p>
+                                    <p class="text-xs text-gray-500">{{ notification.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 py-2 border-t border-gray-200">
+                            <a href="#" class="text-xs font-medium text-darkblue-600 hover:text-darkblue-800">View all notifications</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <a routerLink="/mechanic/profile" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-darkblue-600 flex items-center justify-center text-white">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="hidden md:inline">{{ mechanicName }}</span>
+                        <i class="fas fa-chevron-down text-xs hidden md:inline"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Pending Jobs</p>
+                        <p class="text-2xl font-semibold text-gray-800">{{ pendingJobs }}</p>
+                    </div>
+                    <div class="bg-darkblue-100 p-3 rounded-full">
+                        <i class="fas fa-clock text-darkblue-600"></i>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <span class="text-xs font-medium text-darkblue-600">+1 from yesterday</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">In Progress</p>
+                        <p class="text-2xl font-semibold text-gray-800">{{ inProgress }}</p>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded-full">
+                        <i class="fas fa-tools text-yellow-600"></i>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <span class="text-xs font-medium text-yellow-600">2 due today</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Completed</p>
+                        <p class="text-2xl font-semibold text-gray-800">{{ completedToday }}</p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-full">
+                        <i class="fas fa-check-circle text-green-600"></i>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <span class="text-xs font-medium text-green-600">+3 this week</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Avg. Rating</p>
+                        <p class="text-2xl font-semibold text-gray-800">{{ avgRating }}</p>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-full">
+                        <i class="fas fa-star text-purple-600"></i>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <span class="text-xs font-medium text-purple-600">+0.2 this month</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Work Orders Section -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">Work Orders</h2>
+                <div class="flex items-center space-x-3">
+                    <!-- Refresh Button -->
+                    <button 
+                        (click)="refreshAppointments()"
+                        [disabled]="appointmentsLoading"
+                        class="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white px-3 py-2 rounded-md text-sm font-medium transition flex items-center space-x-2">
+                        <i class="fas fa-sync-alt" [class.fa-spin]="appointmentsLoading"></i>
+                        <span>{{ appointmentsLoading ? 'Loading...' : 'Refresh' }}</span>
+                    </button>
+                    <!-- Search -->
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            [(ngModel)]="searchTerm"
+                            (input)="onSearchChange()"
+                            placeholder="Search jobs..." 
+                            class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-darkblue-500"
+                        >
+                        <div class="absolute left-3 top-2.5 text-gray-400">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                    <!-- Status Filter -->
+                    <div class="relative">
+                        <select [(ngModel)]="statusFilter" (change)="filterJobs()" class="appearance-none bg-gray-100 border border-gray-300 rounded-md px-3 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-darkblue-500">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job List -->
+            <div class="space-y-4">
+                <!-- Loading State -->
+                <div *ngIf="appointmentsLoading" class="text-center py-12">
+                    <div class="mx-auto w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-spinner fa-spin text-3xl text-blue-600"></i>
+                    </div>
+                    <p class="text-blue-600 text-lg mb-2">Loading your work orders...</p>
+                </div>
+
+                <!-- Error State -->
+                <div *ngIf="appointmentsError && !appointmentsLoading" class="text-center py-12">
+                    <div class="mx-auto w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-exclamation-triangle text-3xl text-red-600"></i>
+                    </div>
+                    <p class="text-red-600 text-lg mb-2">Error Loading Work Orders</p>
+                    <p class="text-gray-600 text-sm mb-4">{{ appointmentsError }}</p>
+                    <button 
+                        (click)="refreshAppointments()"
+                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                        Try Again
+                    </button>
+                </div>
+
+                <!-- Empty State -->
+                <div *ngIf="filteredJobs.length === 0 && !appointmentsLoading && !appointmentsError" class="text-center py-12">
+                    <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-clipboard-list text-3xl text-gray-400"></i>
+                    </div>
+                    <p class="text-gray-500 text-lg mb-2">No work orders found</p>
+                    <p class="text-gray-400 text-sm">
+                        <span *ngIf="searchTerm || statusFilter">Try adjusting your search or filter criteria.</span>
+                        <span *ngIf="!searchTerm && !statusFilter">New work orders will appear here when assigned by admin.</span>
+                    </p>
+                </div>
+
+                <!-- Job Cards -->
+                <div *ngFor="let job of paginatedJobs" 
+                     class="border-l-4 bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition" 
+                     [ngClass]="{
+                       'border-orange-500': job.status === 'pending',
+                       'border-darkblue-500': job.status === 'in-progress',
+                       'border-green-500': job.status === 'completed'
+                     }">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+                        <div class="mb-3 md:mb-0">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span [ngClass]="{
+                                  'bg-orange-100 text-orange-800': job.status === 'pending',
+                                  'bg-darkblue-100 text-darkblue-800': job.status === 'in-progress',
+                                  'bg-green-100 text-green-800': job.status === 'completed'
+                                }" class="text-xs px-2 py-1 rounded-full capitalize">
+                                  {{ job.status === 'in-progress' ? 'In Progress' : (job.status | titlecase) }}
+                                </span>
+                                <span *ngIf="job.assignedTime && job.status === 'pending'" class="text-xs text-gray-500">Assigned: {{ job.assignedTime }}</span>
+                                <span *ngIf="job.assignedTime && job.status === 'in-progress'" class="text-xs text-gray-500">Accepted: {{ job.assignedTime }}</span>
+                                <span *ngIf="job.assignedTime && job.status === 'completed'" class="text-xs text-gray-500">Finished: {{ job.assignedTime }}</span>
+                                <span class="text-xs text-gray-500">Due: {{ job.dueDate }}</span>
+                                <span *ngIf="job.rating && job.status === 'completed'" class="text-xs text-gray-500">Rating: {{ job.rating }}</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">{{ job.title }}</h3>
+                            <div class="text-sm text-gray-600 mt-1">
+                                <p><span class="font-medium">Customer:</span> {{ job.customer }}</p>
+                                <p><span class="font-medium">Vehicle:</span> {{ job.vehicle }}</p>
+                                <p *ngIf="job.adminNotes"><span class="font-medium">Admin Notes:</span> {{ job.adminNotes }}</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button (click)="showUpdateJobForm(job)"
+                                    class="bg-darkblue-600 hover:bg-darkblue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                Update
+                            </button>
+                            <button (click)="showCustomerDetailsModal(job)"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md text-sm font-medium transition">
+                                <i class="fas fa-user"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Update Form (for in-progress jobs) -->
+                    <div *ngIf="showUpdateForm && selectedJobId === job.id" class="mt-4 p-4 bg-gray-50 rounded-lg">
+                        <h4 class="font-medium text-gray-800 mb-3">Update Job Progress</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                <select class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                    <option>Not Started</option>
+                                    <option selected>In Progress</option>
+                                    <option>Waiting for Parts</option>
+                                    <option>Needs Approval</option>
+                                    <option>Completed</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Hours Worked</label>
+                                <input type="number" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm" value="1.5">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Parts Used</label>
+                            <div class="flex items-center space-x-2 mb-2">
+                                <select class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                    <option>Select Part</option>
+                                    <option>Synthetic Oil 5W-30</option>
+                                    <option>Oil Filter</option>
+                                    <option>Air Filter</option>
+                                </select>
+                                <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-2 rounded-md text-sm">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="bg-white rounded-md p-2 text-sm">
+                                <div class="flex justify-between items-center py-1 border-b border-gray-100">
+                                    <span>Synthetic Oil 5W-30</span>
+                                    <span class="text-red-500 hover:text-red-700 cursor-pointer">
+                                        <i class="fas fa-times"></i>
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center py-1">
+                                    <span>Oil Filter</span>
+                                    <span class="text-red-500 hover:text-red-700 cursor-pointer">
+                                        <i class="fas fa-times"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                            <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm" rows="3" placeholder="Found minor leak in oil pan, informed customer."></textarea>
+                        </div>
+                        <div class="mt-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Upload Images</label>
+                            <div class="flex items-center space-x-2">
+                                <label class="cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-2 rounded-md text-sm">
+                                    <i class="fas fa-camera mr-1"></i> Add Photos
+                                    <input type="file" class="hidden" multiple>
+                                </label>
+                                <div class="flex space-x-2">
+                                    <div class="w-10 h-10 bg-gray-100 rounded-md flex items-center justify-center">
+                                        <i class="fas fa-image text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end space-x-2 mt-4">
+                            <button (click)="hideUpdateForm()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md text-sm font-medium transition">
+                                Cancel
+                            </button>
+                            <button (click)="saveUpdate()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                Save Update
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-between items-center mt-6">
+                <div class="text-sm text-gray-600">
+                    Showing <span class="font-medium">{{ showingFrom }}</span> to <span class="font-medium">{{ showingTo }}</span> of <span class="font-medium">{{ filteredJobs.length }}</span> jobs
+                </div>
+                <div class="flex space-x-1">
+                    <button 
+                        (click)="prevPage()"
+                        [disabled]="currentPage === 1"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button 
+                        *ngFor="let page of pageNumbers"
+                        (click)="goToPage(page)"
+                        [class]="page === currentPage ? 'bg-darkblue-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'"
+                        class="px-3 py-1 rounded-md text-sm">
+                        {{ page }}
+                    </button>
+                    <button 
+                        (click)="nextPage()"
+                        [disabled]="currentPage === totalPages"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Accept Job Modal -->
+<div *ngIf="showAcceptModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-800">Accept Job</h3>
+            <button (click)="hideAcceptPopup()" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <p class="text-gray-600 mb-6">Are you sure you want to accept this job? Once accepted, you'll be responsible for completing it.</p>
+        <div class="flex justify-end space-x-3">
+            <button (click)="hideAcceptPopup()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md text-sm font-medium transition">
+                Cancel
+            </button>
+            <button (click)="acceptJob()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                Confirm Accept
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Customer Details Modal -->
+<div *ngIf="showCustomerModal && selectedJob" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-800">Customer Details</h3>
+            <button (click)="hideCustomerDetails()" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="space-y-4">
+            <div class="flex items-center space-x-4">
+                <div class="w-16 h-16 rounded-full bg-darkblue-100 flex items-center justify-center">
+                    <i class="fas fa-user text-darkblue-600 text-2xl"></i>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-800">{{ getCustomerName(selectedJob.customer) }}</h4>
+                    <p class="text-sm text-gray-600">Customer since: Jan 2022</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Contact</p>
+                    <p class="text-gray-800">{{ getCustomerPhone(selectedJob.customer) }}</p>
+                    <p class="text-gray-800">{{ getCustomerEmail(selectedJob.customer) }}</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Address</p>
+                    <p class="text-gray-800">123 Main St, Apt 4B</p>
+                    <p class="text-gray-800">Anytown, NY 12345</p>
+                </div>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Current Vehicle</p>
+                <p class="text-gray-800">{{ getVehicleName(selectedJob.vehicle) }}</p>
+                <p class="text-gray-800 text-sm">VIN: {{ getVehicleVin(selectedJob.vehicle) }}</p>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-500">Service History</p>
+                <ul class="text-gray-800 text-sm space-y-1 mt-1">
+                    <li class="flex justify-between">
+                        <span>Oil Change</span>
+                        <span>Mar 15, 2023</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span>Tire Rotation</span>
+                        <span>Dec 10, 2022</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span>Brake Inspection</span>
+                        <span>Aug 5, 2022</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

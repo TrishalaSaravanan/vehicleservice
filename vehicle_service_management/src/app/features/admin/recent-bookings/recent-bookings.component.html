@@ -1,0 +1,23 @@
+<!-- recent-bookings.component.html -->
+<div class="bg-white rounded-lg shadow p-6">
+  <!-- ... other template parts remain the same until the modal ... -->
+
+  <!-- Updated Assign Mechanic Modal -->
+  <div *ngIf="showAssignModal && selectedBooking" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+      <h3 class="text-lg font-semibold mb-4">Assign Mechanic</h3>
+      <select #mechanicSelect class="border rounded px-2 py-1 w-full mb-4">
+        <option value="Mechanic 1">Mechanic 1</option>
+        <option value="Mechanic 2">Mechanic 2</option>
+      </select>
+      <div class="flex justify-end space-x-2">
+        <button (click)="closeAssignModal()" class="px-4 py-2 border rounded">Cancel</button>
+        <button 
+          (click)="assignMechanic(selectedBooking, mechanicSelect.value)" 
+          class="px-4 py-2 bg-blue-600 text-white rounded">
+          Assign
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

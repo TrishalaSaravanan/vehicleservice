@@ -1,0 +1,654 @@
+/* Global styles */
+:host {
+  display: block;
+  font-family: 'Poppins', Arial, sans-serif;
+  background-color: #f3f4f6;
+  min-height: 100vh;
+}
+
+/* Hero Section Heading Styles (match home page) */
+.hero-section h1 {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+.hero-section h4 {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 2rem;
+}
+
+/* Navigation styles */
+nav {
+  backdrop-filter: blur(8px);
+  background-color: rgba(27, 75, 136, 0.95);
+}
+
+/* Profile dropdown animation */
+.profile-dropdown {
+  transform-origin: top right;
+  animation: dropdownSlide 0.2s ease-out;
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Cards hover effects */
+.card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* Service card image styles */
+.service-image {
+  transition: transform 0.3s ease-in-out;
+}
+
+.service-card:hover .service-image {
+  transform: scale(1.05);
+}
+
+/* Modal animations */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button hover effects */
+button.primary {
+  background-color: #1B4B88;
+  transition: background-color 0.2s ease;
+}
+
+button.primary:hover {
+  background-color: #153a6b;
+}
+
+/* Dashboard card styles */
+.dashboard-card {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Vehicle status indicators */
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.status-active {
+  background-color: #10B981;
+}
+
+.status-pending {
+  background-color: #F59E0B;
+}
+
+.status-completed {
+  background-color: #6366F1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* Loading states */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* Global styles for customer home */
+.customer-home-container {
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+/* Body adjustments */
+:host {
+  display: block;
+  padding-top: 80px;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-margin-top: 80px;
+}
+
+/* Hero section background */
+.hero-bg {
+  background-image: url('/assets/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll arrow styles */
+.scroll-arrow {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(27, 75, 136, 0.9);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-arrow:hover {
+  background-color: rgba(27, 75, 136, 1);
+  transform: scale(1.1);
+}
+
+.scroll-up {
+  right: 30px;
+  bottom: 100px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.scroll-down {
+  right: 30px;
+  bottom: 30px;
+}
+
+.arrow-icon {
+  width: 24px;
+  height: 24px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+/* Navigation hover effects */
+nav a {
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #d1d5db !important;
+}
+
+/* Profile dropdown */
+#profile-container {
+  position: relative;
+}
+
+/* Button hover effects */
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+/* Service cards hover effect */
+.service-card {
+  transition: all 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Form styles */
+input, textarea, select {
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #1B4B88;
+  box-shadow: 0 0 0 3px rgba(27, 75, 136, 0.1);
+}
+
+/* Hero section responsive text */
+@media (max-width: 1024px) {
+  .hero-bg h1 {
+    font-size: 3rem;
+    white-space: normal;
+  }
+  
+  .hero-bg h4 {
+    font-size: 1.1rem;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 768px) {
+  :host {
+    padding-top: 70px;
+  }
+  
+  /* Adjust scroll arrows for mobile */
+  .scroll-arrow {
+    width: 40px;
+    height: 40px;
+    right: 20px;
+  }
+  
+  .scroll-up {
+    bottom: 90px;
+  }
+  
+  .arrow-icon {
+    width: 20px;
+    height: 20px;
+    border-width: 0 2px 2px 0;
+    padding: 2px;
+  }
+  
+  /* Hero section mobile adjustments */
+  .hero-bg h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+    padding: 0 1rem;
+  }
+  
+  .hero-bg h4 {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+  
+  /* Navigation mobile adjustments */
+  nav {
+    padding: 1rem;
+  }
+  
+  nav ul {
+    gap: 1rem;
+  }
+  
+  nav ul li a {
+    font-size: 1rem;
+  }
+  
+  .modal-content {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Very small screens */
+  .hero-bg h1 {
+    font-size: 1.5rem;
+  }
+  
+  .hero-bg h4 {
+    font-size: 0.9rem;
+  }
+  
+  nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  nav {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Animation for service cards */
+.service-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1B4B88;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0d3a6e;
+}
+
+/* Focus styles for accessibility */
+button:focus,
+a:focus {
+  outline: 2px solid #1B4B88;
+  outline-offset: 2px;
+}
+
+/* Utility classes */
+.text-primary {
+  color: #1B4B88;
+}
+
+.bg-primary {
+  background-color: #1B4B88;
+}
+
+.border-primary {
+  border-color: #1B4B88;
+}
+
+/* Print styles */
+@media print {
+  .scroll-arrow,
+  nav,
+  .modal-overlay {
+    display: none !important;
+  }
+  
+  section {
+    break-inside: avoid;
+  }
+}
+
+/* Section spacing */
+section {
+    scroll-margin-top: 80px;
+}
+
+body {
+    padding-top: 80px;
+}
+
+/* Hero section overlay */
+.hero-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hero-text {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Scroll arrow styles */
+.scroll-arrow {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(27, 75, 136, 0.9);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-arrow:hover {
+    background-color: rgba(27, 75, 136, 1);
+    transform: scale(1.1);
+}
+
+.scroll-up {
+    right: 30px;
+    bottom: 100px;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.scroll-down {
+    right: 30px;
+    bottom: 30px;
+}
+
+/* Toast notification */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+.toast.error {
+    background-color: #f44336;
+}
+
+/* Footer wave */
+.wave {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+    background-size: cover;
+}
+
+/* Modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    max-width: 400px;
+    width: 90%;
+    animation: modalSlide 0.3s ease-out;
+}
+
+@keyframes modalSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Service card hover effects */
+.service-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .scroll-arrow {
+        width: 40px;
+        height: 40px;
+        right: 20px;
+    }
+    
+    .scroll-up {
+        bottom: 90px;
+    }
+    
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}

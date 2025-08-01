@@ -1,0 +1,408 @@
+
+<!-- Mobile Header -->
+<div class="md:hidden bg-darkblue-900 text-white p-4 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+        <i class="fas fa-car text-2xl"></i>
+        <span class="text-xl font-bold">MechniQ</span>
+    </div>
+    <button (click)="toggleMobileMenu()" class="text-white">
+        <i class="fas fa-bars text-xl"></i>
+    </button>
+</div>
+
+<!-- Mobile Sidebar -->
+<div 
+    *ngIf="showMobileMenu" 
+    class="fixed inset-y-0 left-0 w-64 bg-darkblue-900 text-white z-40 md:hidden transition duration-300 ease-in-out"
+>
+    <div class="p-4 border-b border-darkblue-800 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-car text-2xl"></i>
+            <span class="text-xl font-bold">MechniQ</span>
+        </div>
+        <button (click)="toggleMobileMenu()" class="text-white">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <nav class="p-4">
+        <ul class="space-y-2">
+            <li>
+                <a routerLink="/mechanic/dashboard" class="flex items-center space-x-2 p-2 rounded hover:bg-darkblue-800">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-darkblue-800">
+                    <i class="fas fa-wrench"></i>
+                    <span>Work Orders</span>
+                </a>
+            </li>
+
+            <li>
+                <a routerLink="/mechanic/parts-inventory" class="flex items-center space-x-2 p-2 rounded hover:bg-darkblue-800">
+                    <i class="fas fa-box-open"></i>
+                    <span>Parts Inventory</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/mechanic/service-history" class="flex items-center space-x-2 p-2 rounded bg-darkblue-800">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Service History</span>
+                </a>
+            </li>
+            <li class="pt-4 border-t border-darkblue-800">
+                <a href="#" (click)="confirmLogout(); $event.preventDefault()" class="flex items-center space-x-2 p-2 rounded hover:bg-darkblue-800">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Main Content -->
+<div class="">
+    <!-- Navbar -->
+    <header class="bg-white shadow-sm p-4">
+        <div class="flex justify-between items-center">
+            <h1 class="text-xl font-semibold text-gray-800">Service History</h1>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button (click)="toggleNotifications()" class="text-gray-600 hover:text-darkblue-600 relative">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{{ notificationCount }}</span>
+                    </button>
+                    <!-- Notification Dropdown -->
+                    <div *ngIf="showNotifications" class="absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg z-50">
+                        <div class="p-3 border-b border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-sm font-medium text-gray-800">Notifications</h3>
+                                <button class="text-xs text-darkblue-600 hover:text-darkblue-800">Mark all as read</button>
+                            </div>
+                        </div>
+                        <div class="max-h-60 overflow-y-auto">
+                            <a href="#" *ngFor="let notification of notifications" class="block px-4 py-3 border-b border-gray-100 hover:bg-gray-50">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center mr-3" [ngClass]="notification.iconBg">
+                                        <i [class]="notification.icon"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800">{{ notification.title }}</p>
+                                        <p class="text-xs text-gray-500">{{ notification.description }}</p>
+                                        <p class="text-xs text-gray-400 mt-1">{{ notification.timestamp }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="p-3 border-t border-gray-200 text-center">
+                            <a href="#" class="text-xs text-darkblue-600 hover:text-darkblue-800">View all notifications</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <button (click)="navigateToProfile()" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-darkblue-600 flex items-center justify-center text-white">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="hidden md:inline">{{ mechanicName }}</span>
+                        <i class="fas fa-chevron-down text-xs hidden md:inline"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Filters Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 md:mb-0">Service Records</h2>
+                <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                    <div class="relative flex-grow">
+                        <input 
+                            type="text" 
+                            [(ngModel)]="searchTerm" 
+                            (input)="applyFilters()"
+                            placeholder="Search services..." 
+                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkblue-500"
+                        >
+                        <div class="absolute left-3 top-2.5 text-gray-400">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                    <button (click)="applyFilters()" class="bg-darkblue-600 hover:bg-darkblue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition whitespace-nowrap">
+                        <i class="fas fa-filter mr-1"></i> Filter
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="flex flex-wrap items-center gap-3 mb-6">
+                <div class="flex items-center space-x-2">
+                    <label class="text-sm font-medium text-gray-700">Time Period:</label>
+                    <select 
+                        [(ngModel)]="timePeriodFilter" 
+                        (change)="applyFilters()"
+                        class="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-darkblue-500"
+                    >
+                        <option value="all">All Time</option>
+                        <option value="7">Last 7 Days</option>
+                        <option value="30">Last 30 Days</option>
+                        <option value="90">Last 3 Months</option>
+                        <option value="180">Last 6 Months</option>
+                        <option value="365">Last Year</option>
+                    </select>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <label class="text-sm font-medium text-gray-700">Service Type:</label>
+                    <select 
+                        [(ngModel)]="serviceTypeFilter" 
+                        (change)="applyFilters()"
+                        class="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-darkblue-500"
+                    >
+                        <option value="all">All Services</option>
+                        <option value="Oil Change">Oil Change</option>
+                        <option value="Brake Service">Brake Service</option>
+                        <option value="Tire Service">Tire Service</option>
+                        <option value="Engine Repair">Engine Repair</option>
+                        <option value="Electrical">Electrical</option>
+                        <option value="AC Service">AC Service</option>
+                        <option value="Battery Replacement">Battery Replacement</option>
+                    </select>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <label class="text-sm font-medium text-gray-700">Status:</label>
+                    <select 
+                        [(ngModel)]="statusFilter" 
+                        (change)="applyFilters()"
+                        class="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-darkblue-500"
+                    >
+                        <option value="all">All Status</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Pending Payment">Pending Payment</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service History Table -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr 
+                            *ngFor="let service of paginatedServices" 
+                            class="hover:bg-gray-50 cursor-pointer"
+                            (click)="showServiceDetailsModal(service)"
+                        >
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ service.customer.name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ service.vehicle.make }} {{ service.vehicle.model }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ service.serviceType }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ service.date }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span 
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                                    [ngClass]="getStatusClass(service.status)"
+                                >
+                                    {{ service.status }}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-between items-center mt-6">
+                <div class="text-sm text-gray-600">
+                    Showing <span class="font-medium">{{ startItem }}</span> to <span class="font-medium">{{ endItem }}</span> of <span class="font-medium">{{ totalItems }}</span> services
+                </div>
+                <div class="flex space-x-1">
+                    <button 
+                        (click)="goToPrevPage()"
+                        [disabled]="currentPage === 1"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-sm disabled:opacity-50"
+                    >
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button 
+                        *ngFor="let page of pageNumbers"
+                        (click)="goToPage(page)"
+                        [class]="page === currentPage ? 'bg-darkblue-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'"
+                        class="px-3 py-1 rounded-md text-sm font-medium"
+                    >
+                        {{ page }}
+                    </button>
+                    <button 
+                        (click)="goToNextPage()"
+                        [disabled]="currentPage === totalPages || totalPages === 0"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-sm disabled:opacity-50"
+                    >
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Service Details Modal -->
+<div 
+    *ngIf="showServiceDetails && selectedService" 
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    (click)="hideServiceDetailsModal()"
+>
+    <div class="bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto" (click)="$event.stopPropagation()">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-800">Service Details - <span>{{ selectedService.id }}</span></h3>
+            <button (click)="hideServiceDetailsModal()" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <!-- Customer Info -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium text-gray-800 mb-3">Customer Information</h4>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-gray-400"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">{{ selectedService.customer.name }}</p>
+                            <p class="text-sm text-gray-600">{{ selectedService.customer.phone }}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">{{ selectedService.customer.email }}</p>
+                        <p class="text-sm text-gray-600">{{ selectedService.customer.address }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vehicle Info -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium text-gray-800 mb-3">Vehicle Information</h4>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-car text-gray-400"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">{{ selectedService.vehicle.make }} {{ selectedService.vehicle.model }} ({{ selectedService.vehicle.year }})</p>
+                            <p class="text-sm text-gray-600">VIN: {{ selectedService.vehicle.vin }}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600"><span class="font-medium">Mileage:</span> {{ selectedService.vehicle.mileage }}</p>
+                        <p class="text-sm text-gray-600"><span class="font-medium">Last Service:</span> {{ selectedService.date }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Service Summary -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-medium text-gray-800 mb-3">Service Summary</h4>
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600">Service Date:</span>
+                        <span class="text-sm font-medium">{{ selectedService.date }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600">Service Type:</span>
+                        <span class="text-sm font-medium">{{ selectedService.serviceType }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600">Status:</span>
+                        <span class="text-sm font-medium">{{ selectedService.completionStatus }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600">Total Amount:</span>
+                        <span class="text-sm font-medium">{{ selectedService.amount }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600">Payment Status:</span>
+                        <span class="text-sm font-medium">{{ selectedService.status }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Service Details -->
+        <div class="mb-6">
+            <h4 class="font-medium text-gray-800 mb-3">Service Performed</h4>
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service Item</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr *ngFor="let item of selectedService.items">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ item.name }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-500">{{ item.description }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.quantity }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.price }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.total }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Notes & Attachments -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <h4 class="font-medium text-gray-800 mb-3">Technician Notes</h4>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-sm text-gray-700">{{ selectedService.notes }}</p>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-medium text-gray-800 mb-3">Attachments</h4>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <div *ngFor="let attachment of selectedService.attachments" class="flex items-center space-x-3 mb-3 last:mb-0">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" [ngClass]="getAttachmentIconBg(attachment.type)">
+                            <i [class]="getAttachmentIcon(attachment.type)"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium">{{ attachment.name }}</p>
+                            <p class="text-xs text-gray-500">{{ attachment.size }}</p>
+                        </div>
+                        <button class="ml-auto text-darkblue-600 hover:text-darkblue-800">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Actions -->
+        <div class="flex justify-end space-x-3">
+            <button (click)="printInvoice('current')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md text-sm font-medium transition">
+                <i class="fas fa-print mr-1"></i> Print Invoice
+            </button>
+            <button (click)="sendInvoice('current')" class="bg-darkblue-600 hover:bg-darkblue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                <i class="fas fa-paper-plane mr-1"></i> Send to Customer
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,133 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body, html {
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+/* Add padding to account for fixed navbar only for pages with main navigation */
+body.has-main-nav {
+  padding-top: 80px;
+}
+
+section {
+  scroll-margin-top: 80px;
+}
+
+/* Reset any unwanted margin/padding for admin pages */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure full height for admin layout */
+body, html {
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Custom darkblue color scheme */
+.bg-darkblue-900 {
+  background-color: #1e293b;
+}
+
+.bg-darkblue-800 {
+  background-color: #334155;
+}
+
+.bg-darkblue-700 {
+  background-color: #475569;
+}
+
+.bg-darkblue-600 {
+  background-color: #64748b;
+}
+
+.bg-darkblue-500 {
+  background-color: #94a3b8;
+}
+
+.bg-darkblue-400 {
+  background-color: #cbd5e1;
+}
+
+.bg-darkblue-300 {
+  background-color: #e2e8f0;
+}
+
+.bg-darkblue-200 {
+  background-color: #f1f5f9;
+}
+
+.bg-darkblue-100 {
+  background-color: #f8fafc;
+}
+
+.text-darkblue-900 {
+  color: #1e293b;
+}
+
+.text-darkblue-800 {
+  color: #334155;
+}
+
+.text-darkblue-700 {
+  color: #475569;
+}
+
+.text-darkblue-600 {
+  color: #64748b;
+}
+
+.text-darkblue-500 {
+  color: #94a3b8;
+}
+
+.border-darkblue-900 {
+  border-color: #1e293b;
+}
+
+.border-darkblue-800 {
+  border-color: #334155;
+}
+
+.border-darkblue-700 {
+  border-color: #475569;
+}
+
+.border-darkblue-600 {
+  border-color: #64748b;
+}
+
+.border-darkblue-500 {
+  border-color: #94a3b8;
+}
+
+.hover\:bg-darkblue-800:hover {
+  background-color: #334155;
+}
+
+.hover\:bg-darkblue-700:hover {
+  background-color: #475569;
+}
+
+.hover\:bg-darkblue-600:hover {
+  background-color: #64748b;
+}
+
+.hover\:text-darkblue-600:hover {
+  color: #64748b;
+}
+
+.hover\:text-darkblue-800:hover {
+  color: #334155;
+}
+
+.focus\:ring-darkblue-500:focus {
+  --tw-ring-color: #94a3b8;
+}
